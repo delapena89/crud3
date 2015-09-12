@@ -70,16 +70,17 @@ router.put('/pet/:id', function(req, res, next) {
   });
 });
 
-
-
-
-
-
-
-
-
-
-
-
+// delete single pet
+router.delete('/pet/:id', function(req, res, next) {
+  Pet.findByIdAndRemove(req.params.id, function(err, data) {
+    if (err) {
+      res. json({
+        'message': err
+      });
+    } else {
+      res. json(data);
+    }
+  });
+});
 
 module.exports = router;
