@@ -31,58 +31,64 @@ $(document).on('click', '.delete-button', function(e) {
   });
 });
 
-// // editing a single pet functionality
-// $(document).on('click', 'edit-button', function() {
-//   $.get('/pet/' + $(this).attr('id'),function(data) {
-//     $('#edit-name').val(data.name);
-//     $('#edit-type').val(data.type);
-//     $('#edit-age').val(data.age);
-//     $('#update-button').attr('id', data._id);
-//   });
-//   $('#edit-form').show();
-//   $('#pet-table').hide();
-//   $('#new-pet').hide();
-// });
+// editing a single pet functionality
+$(document).on('click', '.edit-button', function() {
+  var id = $(this).attr('id');
+  $.get('/pet/' + id,function(data) {
+    $('#edit-name').val(data.name);
+    $('#edit-type').val(data.type);
+    $('#edit-age').val(data.age);
+    $('#update-button').attr('id', data._id);
+  });
+  $('#edit-form').show();
+  $('#pet-table').hide();
+  $('#new-pet').hide();
+  $('.update-button').attr('id','');
+  $('.update-button').attr('id', id);
 
-// // cancel request from edit view
-// $(document).on('click', '#cancel-edit', function(e) {
-//   e.preventDefault();
-//   $('#edit-form').hide();
-//   $('#pet-table').show();
-//   $('#new-pet').show();
-// });
+});
 
-// // creating request to update pets
-// $(document).on('click', '.update-button', function(e) {
-//   e.preventDefault();
-//   // form inputs
-//   var $updatedPetName = $('#edit-name').val();
-//   var $updatedPetType = $('#edit-type').val();
-//   var $updatedPetAge = $('#edit-age').val();
+// cancel request from edit view
+$(document).on('click', '#cancel-edit', function(e) {
+  e.preventDefault();
+  $('#edit-form').hide();
+  $('#pet-table').show();
+  $('#new-pet').show();
+});
 
-//   // creating payload
-//   var payload = {
-//     name: $updatedPetName,
-//     type: $updatedPetType,
-//     age: $updatedPetAge
-//   };
-//   $.ajax({
-//     method: "PUT",
-//     url: '/animal/' + $(this).attr('id'),
-//     data: payload
-//   }).done(function(data) {
-//     $("#all").html("");
-//     listPets();
-//     $('#edit-form').hide();
-//   $('#pet-table').show();
-//   $('#new-pet').show();
-//   });
-// });
+// creating request to update pets
+$(document).on('click', '.update-button', function(e) {
+  e.preventDefault();
+  // form inputs
+  var $updatedPetName = $('#edit-name').val();
+  var $updatedPetType = $('#edit-type').val();
+  var $updatedPetAge = $('#edit-age').val();
+
+  // creating payload
+  var payload = {
+    name: $updatedPetName,
+    type: $updatedPetType,
+    age: $updatedPetAge
+  };
+  console.log($(this).attr('id'));
+  $.ajax({
+    method: "PUT",
+    url: '/pet/' + $(this).attr('id'),
+    data: payload
+  }).done(function(data) {
+    $("#all").html("");
+    listPets();
+    console.log(data);
+    $('#edit-form').hide();
+  $('#pet-table').show();
+  $('#new-pet').show();
+  });
+});
 
 
 // function to render the new Pets to the page
 function listPets() {
-  $('#all').html();
+  $('#all').html('');
   $.get('/pets', function(data) {
     for (var i = 0; i < data.length; i++) {
       $('#all').prepend(
