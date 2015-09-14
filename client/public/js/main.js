@@ -19,16 +19,17 @@ $('form').on('submit', function(e) {
   });
 });
 
-// // delete request
-// $(document).on('click', '.delete-button', function() {
-//   $.ajax({
-//     method: "DELETE",
-//     url: '/pet/' + $(this).attr('id')
-//   }).done(function(data) {
-//     $("#all").html("");
-//     listPets();
-//   });
-// });
+// delete request
+$(document).on('click', '.delete-button', function(e) {
+  e.preventDefault();
+  $.ajax({
+    method: "DELETE",
+    url: '/pet/' + $(this).attr('id')
+  }).done(function(data) {
+    $("#all").html("");
+    listPets();
+  });
+});
 
 // // editing a single pet functionality
 // $(document).on('click', 'edit-button', function() {
